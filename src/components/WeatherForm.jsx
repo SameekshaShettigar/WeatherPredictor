@@ -1,4 +1,4 @@
-    import React from "react";
+import React from "react";
 
 const WeatherForm = ({ date, time, city, setDate, setTime, setCity, onSubmit }) => {
   return (

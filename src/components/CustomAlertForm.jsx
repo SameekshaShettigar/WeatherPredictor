@@ -1,14 +1,13 @@
-// src/components/CustomAlertForm.jsx (NEW COMPONENT)
 
 import React, { useState } from "react";
 
-// Weather options based on the logic in App.jsx
+
 const weatherOptions = ["Rainy", "Windy", "Hot", "Cold", "Clear"];
 
 const CustomAlertForm = ({ city, onSetAlert }) => {
   const [targetWeather, setTargetWeather] = useState("");
   const [targetDate, setTargetDate] = useState("");
-  const [alertCity, setAlertCity] = useState(city); // Allows user to change city for the alert
+  const [alertCity, setAlertCity] = useState(city); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +22,7 @@ const CustomAlertForm = ({ city, onSetAlert }) => {
       targetDate: targetDate,
     });
     
-    // Clear the form (optional)
+    
     setTargetWeather("");
     setTargetDate("");
   };

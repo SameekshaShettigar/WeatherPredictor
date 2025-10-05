@@ -1,10 +1,9 @@
-// App.jsx (MODIFIED to add Custom Alert functionality)
 
 import React, { useState } from "react";
 import WeatherForm from "./components/WeatherForm";
 import WeatherCard from "./components/WeatherCard";
 import Loader from "./components/Loader";
-import CustomAlertForm from "./components/CustomAlertForm"; // NEW COMPONENT IMPORT
+import CustomAlertForm from "./components/CustomAlertForm"; 
 
 export default function App() {
   const [city, setCity] = useState("");
@@ -14,13 +13,13 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   
-  // NEW STATE: Manages the current view and the custom alert data
-  const [view, setView] = useState('home'); // 'home' or 'alert_setup'
+
+  const [view, setView] = useState('home');
   const [alertResult, setAlertResult] = useState(null);
 
-  // Helper to determine the weather type (must match the options in CustomAlertForm)
+ 
   const getWeatherType = (temp, precipitation, wind) => {
-    // These thresholds match the original logic for consistency
+    
     if (precipitation > 0) return "rainy";
     if (temp > 28) return "hot";
     if (wind > 20) return "windy";
@@ -33,7 +32,7 @@ export default function App() {
 
     const cityToFetch = targetCity || city;
     const dateToFetch = targetDate || date;
-    const timeToFetch = isAlertCheck ? '12:00' : time; // Use noon for alert checks
+    const timeToFetch = isAlertCheck ? '12:00' : time;
 
     if (!cityToFetch || !dateToFetch) {
       if (!isAlertCheck) {
@@ -64,7 +63,7 @@ export default function App() {
 
       const { latitude, longitude, name } = geoData.results[0];
 
-      // Fetch hourly data, especially important for alert check
+      
       const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,windspeed_10m&timezone=auto`;
       const res = await fetch(weatherUrl);
       const data = await res.json();
@@ -88,7 +87,7 @@ export default function App() {
         precipitation: data.hourly.precipitation[closestIndex],
         wind: data.hourly.windspeed_10m[closestIndex],
         cityName: name,
-        // Include full hourly data for the alert check
+        
         hourlyTimes: data.hourly.time,
         hourlyTemps: data.hourly.temperature_2m,
         hourlyPrecipitation: data.hourly.precipitation,
@@ -112,7 +111,7 @@ export default function App() {
 
   const handleSetAlert = async (criteria) => {
     setAlertResult(null);
-    setView('home'); // Switch back to home view to show loading/result
+    setView('home'); 
     setLoading(true);
 
     const data = await fetchWeather({ 
@@ -128,10 +127,10 @@ export default function App() {
       const targetType = criteria.targetWeather.toLowerCase();
       const targetDateISO = criteria.targetDate;
 
-      // Check all hourly slots for the target date
+     
       for (let i = 0; i < data.hourlyTimes.length; i++) {
         const currentHour = new Date(data.hourlyTimes[i]);
-        // Only check hours on the target date
+        
         if (currentHour.toISOString().startsWith(targetDateISO)) {
           const temp = data.hourlyTemps[i];
           const precipitation = data.hourlyPrecipitation[i];
@@ -217,7 +216,7 @@ export default function App() {
         setDate={setDate}
         setTime={setTime}
         setCity={setCity}
-        onSubmit={() => fetchWeather({isAlertCheck: false})} // Call with no options for main fetch
+        onSubmit={() => fetchWeather({isAlertCheck: false})} 
       />
 
       {/* NEW BUTTON: Switch to Custom Alert view */}
